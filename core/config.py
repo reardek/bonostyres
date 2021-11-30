@@ -4,7 +4,8 @@ from enum import Enum
 from functools import lru_cache
 from typing import Optional
 
-from pydantic import BaseSettings, PostgresDsn
+from pydantic import BaseSettings
+from pydantic.networks import PostgresDsn
 
 from dotenv import load_dotenv
 
@@ -28,9 +29,7 @@ class GlobalConfig(BaseSettings):
     TESTING: bool = False
     TIMEZONE: str = "UTC"
 
-    DATABASE_URL: Optional[
-        PostgresDsn
-    ] = f"postgresql://deployer:{DB_PASSWORD}@127.0.0.1:5432/{DB_NAME}"
+    DATABASE_URL: Optional[PostgresDsn] = f"postgresql://deployer:{DB_PASSWORD}@127.0.0.1:5432/{DB_NAME}"
     DB_ECHO_LOG: bool = False
 
     @property
@@ -60,7 +59,6 @@ class FactoryConfig:
 
     def __call__(self) -> GlobalConfig:
         return LocalConfig()
-    
 
 
 @lru_cache()

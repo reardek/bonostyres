@@ -10,7 +10,7 @@ from schema.teams import OutTeamSchema, InTeamSchema
 app = FastAPI()
 
 @app.post("/", status_code=status.HTTP_201_CREATED, response_model=OutTeamSchema)
-async def root(payload: InTeamSchema, db: AsyncSession = Depends(get_db)) -> OutTeamSchema:
-    team_repository = TeamsRepository(db)
+async def root(payload: InTeamSchema, session: AsyncSession = Depends(get_db)) -> OutTeamSchema:
+    team_repository = TeamsRepository(session)
     team = await team_repository.create(payload)
     return OutTeamSchema(**team.dict())

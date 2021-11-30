@@ -2,18 +2,19 @@ import abc
 from typing import Generic, TypeVar, Type
 from uuid import uuid4, UUID
 
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from database.errors import DoesNotExist
 
 from schema.base import BaseSchema
 
-IN_SCHEMA = TypeVar("IN_SCHEMA", bound=BaseSchema)
+INSCHEMA = TypeVar("INSCHEMA", bound=BaseSchema)
 SCHEMA = TypeVar("SCHEMA", bound=BaseSchema)
 TABLE = TypeVar("TABLE")
 
 
-class BaseRepository(Generic[IN_SCHEMA, SCHEMA, TABLE], metaclass=abc.ABCMeta):
-    def __init__(self, db_session: AsyncSession, *args, **kwargs) -> None:
+class BaseRepository(Generic[INSCHEMA, SCHEMA, TABLE], metaclass=abc.ABCMeta):
+    def __init__(self, db_session: AsyncSession) -> None:
         self._db_session: AsyncSession = db_session
 
     @property
@@ -26,7 +27,7 @@ class BaseRepository(Generic[IN_SCHEMA, SCHEMA, TABLE], metaclass=abc.ABCMeta):
     def _schema(self) -> Type[SCHEMA]:
         ...
 
-    async def create(self, in_schema: IN_SCHEMA) -> SCHEMA:
+    async def create(self, in_schema: INSCHEMA) -> SCHEMA:
         entry = self._table(id=uuid4(), **in_schema.dict())
         self._db_session.add(entry)
         await self._db_session.commit()

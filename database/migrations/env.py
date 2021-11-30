@@ -1,3 +1,4 @@
+# pylint: skip-file
 from core.config import settings
 from database.base_meta import Base
 

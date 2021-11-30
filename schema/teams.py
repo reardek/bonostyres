@@ -1,7 +1,4 @@
-from typing import Optional, Any, Dict
 from uuid import UUID
-
-from pydantic import validator
 
 from schema.base import BaseSchema
 

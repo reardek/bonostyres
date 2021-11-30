@@ -2,7 +2,7 @@ from typing import Type
 
 from database.repositories.base import BaseRepository
 from database.models.teams import Team
-from schema.teams import InTeamSchema, OutTeamSchema, TeamSchema
+from schema.teams import InTeamSchema, OutTeamSchema
 
 
 class TeamsRepository(BaseRepository[InTeamSchema, OutTeamSchema, Team]):
@@ -11,8 +11,8 @@ class TeamsRepository(BaseRepository[InTeamSchema, OutTeamSchema, Team]):
         return InTeamSchema
 
     @property
-    def _schema(self) -> Type[TeamSchema]:
-        return TeamSchema
+    def _schema(self) -> Type[OutTeamSchema]:
+        return OutTeamSchema
 
     @property
     def _table(self) -> Type[Team]:
